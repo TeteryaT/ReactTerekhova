@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>React Лабораторная 1</title>
+  <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(8, 50px);
+      grid-template-rows: repeat(8, 50px);
+      width: 400px;
+      border: 2px solid #333;
+      margin: 0 auto;
+    }
+    .white { background-color: #f0d9b5; }
+    .black { background-color: #b58863; }
+    .notation {
+      display: flex;
+      justify-content: space-between;
+      width: 400px;
+      margin: 5px auto;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const App = () => {
+      // Задание 1: отображение сегодняшней даты
+      const today = new Date().toLocaleDateString();
+
+      // Задание 2: таблица акций
+      const stocks = [
+        { stock_name: "EFX", company_name: "Equifax Inc", price: 163.55, currency: "USD", change: "+9.03" },
+        { stock_name: "IRM", company_name: "Iron Mountain Inc", price: 33.21, currency: "USD", change: "+1.42" },
+        { stock_name: "NTAP", company_name: "NetApp Inc", price: 54.81, currency: "USD", change: "-6.01" },
+        { stock_name: "CTL", company_name: "Centurylink Inc", price: 13.79, currency: "USD", change: "-1.37" }
+      ];
+
+      const renderNotation = () => {
+        const letters = [...'abcdefgh'];
+        return letters.map((l, i) => <span key={i}>{l}</span>);
+      };
+
+      const renderStockTable = () => (
+        <table>
+          <thead>
+            <tr>
+              <th>Тикер</th>
+              <th>Компания</th>
+              <th>Цена</th>
+              <th>Изменение</th>
+            </tr>
+          </thead>
+          <tbody>
+            {stocks.map((stock, index) => (
+              <tr key={index}>
+                <td>{stock.stock_name}</td>
+                <td>{stock.company_name}</td>
+                <td>{stock.price} {stock.currency}</td>
+                <td style={{ color: stock.change.startsWith('+') ? 'green' : 'red' }}>{stock.change}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+
+      const Square = ({ isBlack }) => (
+        <div className={isBlack ? 'black' : 'white'}></div>
+      );
+
+      const ChessBoard = () => {
+        const board = [];
+        for (let row = 0; row < 8; row++) {
+          for (let col = 0; col < 8; col++) {
+            const isBlack = (row + col) % 2 === 1;
+            board.push(<Square key={`${row}-${col}`} isBlack={isBlack} />);
+          }
+        }
+        return <div className="board">{board}</div>;
+      };
+
+      return (
+        <div>
+          <h2>Задание 1: Сегодняшняя дата</h2>
+          <p>{today}</p>
+
+          <h2>Задание 2: Таблица акций</h2>
+          {renderStockTable()}
+
+          <h2>Задание 3: Шахматная доска</h2>
+          <div className="notation">{renderNotation()}</div>
+          <ChessBoard />
+          <div className="notation">{renderNotation()}</div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>

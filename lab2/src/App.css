@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.clock {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+select {
+  margin: 0.5rem 1rem 1rem 0;
+}
+
+ul {
+  padding-left: 20px;
+}
